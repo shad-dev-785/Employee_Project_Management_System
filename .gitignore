@@ -1,0 +1,8 @@
+/agile-api/target/
+/agile-api/src/main/resources/static/
+/agile-api/.idea
+*.log
+/.idea/
+pom.xml.bak
+
+*.bak

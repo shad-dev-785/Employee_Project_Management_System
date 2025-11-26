@@ -1,0 +1,20 @@
+package com.agile;
+
+public enum Status {
+    NOT_STARTED,
+    IN_PROGRESS,
+    COMPLETED,
+    ESTIMATE_APPROVED,
+    IN_TESTING,
+    TEST_FAILED,
+    VERIFIED,
+    ON_PRODUCTION,
+    WILL_NOT_DO,
+    DUPLICATE,
+    SUSPENDED,
+    COULD_NOT_REPRODUCE,
+    NEED_MORE_INFO,
+    VERIFIED_BY_CLIENT,
+    CODE_REVIEW
+
+}
