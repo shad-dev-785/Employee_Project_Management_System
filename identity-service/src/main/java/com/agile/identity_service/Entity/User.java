@@ -1,9 +1,7 @@
 package com.agile.identity_service.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -14,8 +12,8 @@ import java.io.Serializable;
 @Table(name = "users")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -27,9 +25,14 @@ public class User implements Serializable {
     private String email;
 
     private String role;
+
+    @Column(name = "profile_image_path")
+    private String profileImagePath;
+
     @Column(nullable = false)
     private String phone;
 
     @Enumerated(EnumType.STRING)
     private Status status;
-}
+
+    }
