@@ -5,7 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 @EnableCaching
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+		"com.agile.identity_service",  // 1. Scan this service's own code
+		"com.agile.common_security"    // 2. Scan the Shared Library code
+})
 public class IdentityServiceApplication {
 
 	public static void main(String[] args) {

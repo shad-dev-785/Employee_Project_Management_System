@@ -11,4 +11,5 @@ public class ResponseUserDto {
     private String role;
     private Status status;
     private String phone;
+    private String token;
 }

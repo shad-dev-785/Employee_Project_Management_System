@@ -6,34 +6,33 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails, Serializable {
 
-    private String email;
-    private String password;
-    private Collection<? extends GrantedAuthority> authorities;
-    private Status status;
+    private static final long serialVersionUID = 1L; // Safe standard value
+    private User user;
     public CustomUserDetails(User user) {
-        this.email = user.getEmail();
-        this.password = user.getPassword();
-        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
-        this.status = user.getStatus();
+        this.user = user;
+    }
+    public User getUserEntity() {
+        return user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return user.getEmail();
     }
 
     @Override
@@ -53,6 +52,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return status== Status.ACTIVE;
+        return user.getStatus()== Status.ACTIVE;
     }
 }

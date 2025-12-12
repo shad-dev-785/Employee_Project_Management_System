@@ -11,6 +11,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Table(name = "users")
 public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L; // Safe standard value
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
