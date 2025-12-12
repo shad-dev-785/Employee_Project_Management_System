@@ -1,6 +1,7 @@
 package com.agile.api_gateway;
 
-import org.springframework.http.server.ServerHttpRequest;
+//import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
 import java.net.http.HttpRequest;
