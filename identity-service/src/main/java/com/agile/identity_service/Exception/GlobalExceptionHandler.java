@@ -10,14 +10,16 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleEpmsException(EpmsException ex) {
+        ex.printStackTrace();
         return ResponseEntity
                 .status(409)
                 .body(Map.of("error", ex.getMessage()));
     }
     @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
+        ex.printStackTrace();
         return ResponseEntity
                 .status(500)
-                .body(Map.of("error", "Internal Server Error"));
+                .body(Map.of("error", ex.getMessage()));
     }
 }

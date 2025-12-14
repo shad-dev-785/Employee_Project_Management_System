@@ -13,7 +13,9 @@ import jakarta.persistence.criteria.Predicate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -121,10 +123,14 @@ public class UserService {
         return responseDto;
     }
 
-
+@Cacheable(
+        value = "users",
+        key = "#filters.toString()",
+        condition = "#filters.name == null && #filters.email == null && #filters.role == null && #filters.status == null && #filters.phone == null"
+)
     public ResponseDto getUsers(UserDto filters) {
         ResponseDto responseDto = new ResponseDto();
-        Pageable pageable= PageRequest.of(filters.getPage(), filters.getSize());
+        Pageable pageable= PageRequest.of(filters.getPageNo(), filters.getPageSize());
 //        Using JpaSpecificationExecutor to apply filters
         Specification<User> spec= (root, query, cb) -> {
             List<Predicate> predicates= new ArrayList<>();
@@ -154,15 +160,70 @@ public class UserService {
         }
         return responseDto;
     }
-@CachePut(value = "users", key = "#userDto.id")
+    @CacheEvict(
+        value = "users",
+        allEntries = true)
     public ResponseDto updateUser(UserDto userDto) {
         ResponseDto responseDto = new ResponseDto();
+        if(userDto.getId()!=null){
+            User existingUser = userRepository.findById(userDto.getId())
+                    .orElseThrow(() -> new EpmsException("User not found with id: " + userDto.getId()));
+            if(userDto.getName()!=null && !userDto.getName().isEmpty()){
+                existingUser.setName(userDto.getName());
+            }
+            if(userDto.getEmail()!=null && !userDto.getEmail().isEmpty()){
+                existingUser.setEmail(userDto.getEmail());
+            }
+            if(userDto.getPhone()!=null && !userDto.getPhone().isEmpty()){
+                existingUser.setPhone(userDto.getPhone());
+            }
+            if (userDto.getRole() != null && !userDto.getRole().isEmpty()) {
+                existingUser.setRole(userDto.getRole());
+            }
+            if(userDto.getStatus()!=null){
+                existingUser.setStatus(userDto.getStatus());
+            }
+            if(userDto.getPassword()!=null && !userDto.getPassword().isEmpty()){
+                existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            }
+
+            if(userDto.getProfileImagePath()!=null && !userDto.getProfileImagePath().isEmpty()){
+                    existingUser.setProfileImagePath(userDto.getProfileImagePath());
+            }
+
+            User updatedUser = userRepository.save(existingUser);
+            ResponseUserDto dto = new ResponseUserDto();
+            mapper.map(updatedUser, dto);
+            responseDto.setMessage("User updated successfully");
+            responseDto.setData(dto);
+        } else {
+            throw new EpmsException("User ID must be provided for update");
+        }
         return responseDto;
     }
 
-    public ResponseDto deleteUser(Long userId) {
+    public ResponseDto findById(Long userId) {
         ResponseDto responseDto = new ResponseDto();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EpmsException("User not found with id: " + userId));
+        ResponseUserDto dto = new ResponseUserDto();
+        mapper.map(user, dto);
+        responseDto.setMessage("User retrieved successfully");
+        responseDto.setData(dto);
         return responseDto;
     }
-
+@CacheEvict(
+        value = "users",
+        allEntries = true
+)
+    public ResponseDto deleteUser(Long id) {
+        ResponseDto responseDto = new ResponseDto();
+        if(userRepository.existsById(id)){
+            userRepository.deleteById(id);
+            responseDto.setMessage("User deleted successfully with id: " + id);
+        } else {
+            throw new EpmsException("User not found with id: " + id);
+        }
+        return responseDto;
+    }
 }

@@ -17,7 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     UserRepository userRepository;
 
     @Override
-    @Cacheable(value = "users", key = "#root.args[0]")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user= userRepository.findByEmail(username);
         return user.map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));

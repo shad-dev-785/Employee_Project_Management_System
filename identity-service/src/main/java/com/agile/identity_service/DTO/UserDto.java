@@ -4,8 +4,11 @@ import com.agile.identity_service.Entity.Status;
 import jakarta.ws.rs.DefaultValue;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class UserDto {
+public class UserDto implements Serializable {
+    private Long id;
     private String name;
     private String email;
     private String password;
@@ -13,10 +16,6 @@ public class UserDto {
     private String role;
     private Status status;
     private String profileImagePath;
-
-    @DefaultValue("0")
-    private int page;
-
-    @DefaultValue("10")
-    private int size;
+    private int pageNo = 0;
+    private int pageSize = 10;
 }
