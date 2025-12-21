@@ -1,4 +1,4 @@
-package com.agile.identity_service.DTO;
+package com.agile.dto;
 
 import lombok.Data;
 

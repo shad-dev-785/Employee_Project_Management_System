@@ -1,4 +1,4 @@
-package com.agile.identity_service.Exception;
+package com.agile.exception;
 
 public class EpmsException extends RuntimeException{
     public EpmsException(String message){

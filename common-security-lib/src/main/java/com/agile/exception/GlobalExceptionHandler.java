@@ -1,4 +1,4 @@
-package com.agile.identity_service.Exception;
+package com.agile.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
