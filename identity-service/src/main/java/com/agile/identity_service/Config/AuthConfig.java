@@ -30,18 +30,6 @@ public class AuthConfig{
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-               .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                          .requestMatchers("/auth/register", "/auth/login", "/uploads/**").permitAll()
-                        .requestMatchers("/error").permitAll()
-                          .anyRequest().authenticated()
-                );
-        httpSecurity.addFilterBefore(authenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();
-    }
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }

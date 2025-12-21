@@ -1,6 +1,5 @@
 package com.agile.identity_service.Controller;
-
-import com.agile.identity_service.DTO.ResponseDto;
+import com.agile.dto.ResponseDto;
 import com.agile.identity_service.DTO.UserDto;
 import com.agile.identity_service.Service.UserService;
 import lombok.extern.slf4j.Slf4j;
