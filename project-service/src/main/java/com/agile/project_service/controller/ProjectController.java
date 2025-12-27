@@ -1,5 +1,4 @@
 package com.agile.project_service.controller;
-
 import com.agile.dto.ResponseDto;
 import com.agile.project_service.dto.AddUserToProjectDto;
 import com.agile.project_service.dto.ProjectDto;
@@ -38,7 +37,7 @@ public class ProjectController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_MANAGER, ROLE_DEVELOPER, ROLE_HR')")
-    @PostMapping("/fine-project-by-user")
+    @PostMapping("/find-project-by-user")
     public ResponseDto findProjectsByUserId(@RequestParam Long userId) {
         log.info("Finding projects for user id: " + userId);
         return projectService.findProjectsByUserId(userId);
