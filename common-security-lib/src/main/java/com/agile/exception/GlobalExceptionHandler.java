@@ -20,6 +20,6 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();
         return ResponseEntity
                 .status(500)
-                .body(Map.of("error", ex.getMessage()));
+                .body(Map.of("error", "an error occurred! Please try again later"));
     }
 }
