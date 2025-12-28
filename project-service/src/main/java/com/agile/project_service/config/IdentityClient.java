@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "identity-service")
 public interface IdentityClient {
-    @GetMapping("/users/find-by-id")
-    ResponseDto getUserById(@RequestParam Long userId);
+    @GetMapping("/user/find-by-id")
+    ResponseDto getUserById(@RequestParam Long id);
 }

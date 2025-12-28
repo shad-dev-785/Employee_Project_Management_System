@@ -44,16 +44,16 @@ public class ProjectService {
         responseDto.setData(projectResponseDto);
         return responseDto;
     }
-  @CacheEvict(value = "projects", key = "#projectId")
-    public ResponseDto addMembersToProject(Long projectId, AddUserToProjectDto dto) {
+  @CacheEvict(value = "projects", key = "#dto.getId")
+    public ResponseDto addMembersToProject(ProjectDto dto) {
         ResponseDto responseDto= new ResponseDto();
         try{
-            for(Long userId : dto.getUserIds()){
+            for(Long userId : dto.getMemberIds()){
                 // Logic to add user to project
                 ResponseDto user= identityClient.getUserById(userId);
                 if(user.getData() != null){
                     UserObject userObject= modelMapper.map(user.getData(), UserObject.class);
-                    Project project= projectRepository.findById(projectId).orElseThrow(()-> new EpmsException("Project not found with id: " + projectId));
+                    Project project= projectRepository.findById(dto.getId()).orElseThrow(()-> new EpmsException("Project not found with id: " + dto.getId()));
                     project.getMemberIds().add(userObject.getId());
                  Project savedProject = projectRepository.save(project);
                     responseDto.setMessage("Users added to project successfully");

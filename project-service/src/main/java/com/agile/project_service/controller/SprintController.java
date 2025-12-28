@@ -25,6 +25,7 @@ public class SprintController {
 //         Implementation for creating a sprint
         return sprintService.createSprint(sprintDto);
     }
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping("/assign-members")
     public ResponseDto assignMembersToSprint(@RequestBody SprintDto sprintDto) {
         // Implementation for assigning members to a sprint

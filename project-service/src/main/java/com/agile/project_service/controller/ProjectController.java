@@ -23,10 +23,10 @@ public class ProjectController {
         return projectService.createProject(dto);
     }
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @PostMapping("/{id}/add-members")
-    public ResponseDto addMembersToProject(@PathVariable Long id, @RequestBody AddUserToProjectDto dto) {
+    @PostMapping("/add-members")
+    public ResponseDto addMembersToProject(@RequestBody ProjectDto dto) {
         log.info("Adding members to project");
-        return projectService.addMembersToProject(id,dto);
+        return projectService.addMembersToProject(dto);
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
